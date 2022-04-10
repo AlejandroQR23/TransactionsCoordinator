@@ -1,17 +1,13 @@
-"""
-Integrantes:
-- Lemus Martínez Enrique Joel
-- Quijano Ramírez Alejandro
-- Reyes Quijano Roberto
-"""
-
-
 import json
 
 
 class Transaction:
 
     transaction_number = 0
+
+    def __init__(self):
+        self.hasError = False
+        self.transaction_number += 1
 
     def open_transaction(self) -> str:
         """
@@ -23,7 +19,6 @@ class Transaction:
 
         self.balance = data['account']['balance']
 
-        self.transaction_number += 1
         return self.transaction_number
 
     def abort_transaction(self) -> None:
@@ -31,7 +26,7 @@ class Transaction:
         Cierra la transacción sin que los efectos de sus 
         operaciones sean almacenados en memoria permanente
         """
-        pass
+        raise Exception("Transaccion abortada")
 
     def close_transaction(self) -> None:
         """
@@ -44,7 +39,6 @@ class Transaction:
         Realiza un deposito a una cuenta bancaria
         """
         self.balance += amount
-        pass
 
     def withdraw(self, amount: float) -> bool:
         """
