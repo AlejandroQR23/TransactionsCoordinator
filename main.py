@@ -5,35 +5,22 @@ Integrantes:
 - Reyes Quijano Roberto
 """
 
-import Transaction
+from Transaction import Transaction
 
-tc = Transaction()
-tc.open_transaction()
 
-# while(1):
-#     print(" 1.- abrir transaccion")
-#     print(" 2.- cerrar transaccion")
-#     print(" 3.- abortar transaccion")
-#     print(" 4.- deposito")
-#     print(" 5.- retiro")
-#     print(" 6.- Salir")
-#     opcion = input(" Introduzca Opcion: ")
+def main():
+    tc = Transaction()
+    transaction_id = tc.open_transaction()
+    print(f"ID de la transacción: {transaction_id}")
 
-#     if opcion == '6':
-#         break
-#     else:
-#         tc = Transaction()
+    tc.withdraw(10)
+    tc.deposit(100)
+    try:
+        tc.close_transaction()
+        tc.abort_transaction()
+    except Exception as e:
+        print(f"Transaccion abortada: {e}")
 
-#     if opcion == '1':
-#         print('\n opcion 1')
-#         id = tc.open_transaction()
-#     elif opcion == '2':
-#         print('\n opcion 2')
-#     elif opcion == '3':
-#         print('\n opcion 3')
-#     elif opcion == '4':
-#         print('\n opcion 4')
-#     elif opcion == '5':
-#         print('\n opcion 5')
-#     else:
-#         print('\n opcion no valida')
+
+if __name__ == "__main__":
+    main()

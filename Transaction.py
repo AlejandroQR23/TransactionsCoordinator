@@ -1,5 +1,7 @@
 import json
 
+FILE_URL = 'data/accounts.json'
+
 
 class Transaction:
 
@@ -14,10 +16,10 @@ class Transaction:
         Inicia una transacción y crea un
         identificador único para esta
         """
-        f = open('data/accounts.json')
-        data = json.load(f)
+        f = open(FILE_URL)
+        self.data = json.load(f)
 
-        self.balance = data['account']['balance']
+        self.balance = self.data['account']['balance']
 
         return self.transaction_number
 
@@ -26,19 +28,24 @@ class Transaction:
         Cierra la transacción sin que los efectos de sus 
         operaciones sean almacenados en memoria permanente
         """
-        raise Exception("Transaccion abortada")
+        raise Exception(f"Transaccion {self.transaction_number} abortada")
 
     def close_transaction(self) -> None:
         """
         Si la transacción puede ser consumada, almacenará sus resultados en memoria permanente, sino, deberá invocar al método aborta transacción
         """
-        pass
+        if(self.hasError):
+            self.abort_transaction()
+        else:
+            with open(FILE_URL, "w") as outfile:
+                json.dump(self.data, outfile)
 
     def deposit(self, amount: float) -> None:
         """
         Realiza un deposito a una cuenta bancaria
         """
         self.balance += amount
+        self.data['account']['balance'] = self.balance
 
     def withdraw(self, amount: float) -> bool:
         """
@@ -48,5 +55,8 @@ class Transaction:
         """
         if amount > self.balance:
             return False
+
         self.balance -= amount
+        self.data['account']['balance'] = self.balance
+
         return True
