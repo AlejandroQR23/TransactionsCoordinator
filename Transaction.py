@@ -1,19 +1,29 @@
 """
 Integrantes:
-- Lemus Martínez (?) Enrique Joel
+- Lemus Martínez Enrique Joel
 - Quijano Ramírez Alejandro
 - Reyes Quijano Roberto
 """
 
 
-class TransactionsCoordinator:
+import json
+
+
+class Transaction:
+
+    transaction_number = 0
 
     def open_transaction(self) -> str:
         """
         Inicia una transacción y crea un
         identificador único para esta
         """
-        pass
+        f = open('data.json')
+        self.data = json.load(f)
+        print(self.data)
+
+        self.transaction_number += 1
+        return self.transaction_number
 
     def abort_transaction(self) -> None:
         """
