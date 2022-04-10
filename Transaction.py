@@ -18,9 +18,10 @@ class Transaction:
         Inicia una transacción y crea un
         identificador único para esta
         """
-        f = open('data.json')
-        self.data = json.load(f)
-        print(self.data)
+        f = open('data/accounts.json')
+        data = json.load(f)
+
+        self.balance = data['account']['balance']
 
         self.transaction_number += 1
         return self.transaction_number
@@ -42,10 +43,16 @@ class Transaction:
         """
         Realiza un deposito a una cuenta bancaria
         """
+        self.balance += amount
         pass
 
-    def withdraw(self, amount: float) -> None:
+    def withdraw(self, amount: float) -> bool:
         """
         Realiza un retiro a una cuenta bancaria
+
+        Regresa: Un booleano indicando si el retiro se puede hacer
         """
-        pass
+        if amount > self.balance:
+            return False
+        self.balance -= amount
+        return True
