@@ -1,0 +1,18 @@
+[
+  {
+    "_id": {
+      "$oid": "6291955bcf7ff5f5e6ff47a7"
+    },
+    "accountName": "a",
+    "balance": 1000,
+    "isAvailable": true
+  },
+  {
+    "_id": {
+      "$oid": "629195c8cf7ff5f5e6ff47a8"
+    },
+    "accountName": "b",
+    "balance": 3000,
+    "isAvailable": false
+  }
+]
