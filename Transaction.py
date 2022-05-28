@@ -1,27 +1,20 @@
-import json
-
-FILE_URL = 'data/accounts.json'
-
-
 class Transaction:
 
     transaction_number = 0
 
     def __init__(self):
-        self.hasError = False
+        self.has_error = False
         self.transaction_number += 1
 
-    def open_transaction(self) -> str:
+    def open_transaction(self, data: dict) -> int:
         """
         Inicia una transacción y crea un
         identificador único para esta.
 
-        Lee los datos de la memoria permanente.
+        Establece el balance a partir de los datos
+        extraidos de la bd. 
         """
-        f = open(FILE_URL)
-        self.data = json.load(f)
-
-        self.balance = self.data['account']['balance']
+        self.balance = data['balance']
 
         return self.transaction_number
 
@@ -35,32 +28,31 @@ class Transaction:
         """
         raise Exception(f"Transaccion {self.transaction_number} abortada")
 
-    def close_transaction(self) -> None:
+    def close_transaction(self) -> int:
         """
-        Si la transacción puede ser consumada, almacenará sus resultados en memoria permanente, sino aborta la transacción
+        Si la transacción puede ser consumada, regresa el balance 
+        temporal para ser almacenado en la base de datos
         """
-        if(self.hasError):
+        if(self.has_error):
             self.abort_transaction()
         else:
-            with open(FILE_URL, "w") as outfile:
-                json.dump(self.data, outfile)
+            return self.balance
 
-    def deposit(self, amount: float) -> None:
+    def deposit(self, amount: int) -> None:
         """
         Realiza un deposito a una cuenta bancaria
 
         Parametros:
-        amount: un flotante con la cantidad a depositar
+        amount: un entero con la cantidad a depositar
         """
         self.balance += amount
-        self.data['account']['balance'] = self.balance
 
-    def withdraw(self, amount: float) -> bool:
+    def withdraw(self, amount: int) -> bool:
         """
         Realiza un retiro a una cuenta bancaria
 
         Parametros:
-        amount: un flotante con la cantidad a retirar
+        amount: un entero con la cantidad a retirar
 
         Regresa:
         Un booleano indicando si el retiro se puede hacer
@@ -69,6 +61,5 @@ class Transaction:
             return False
 
         self.balance -= amount
-        self.data['account']['balance'] = self.balance
 
         return True
