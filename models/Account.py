@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-CONNECTION_STRING = "mongodb+srv://alqr_node:alqr2309@cluster0.imft1.mongodb.net/TransactionsCoordinator"
+CONNECTION_STRING = ""
 
 
 class Accounts:
